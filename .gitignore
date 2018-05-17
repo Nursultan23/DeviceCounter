@@ -1,0 +1,7 @@
+DeviceControl/DeviceControl/bin/
+DeviceControl/DeviceControl/obj/Debug/
+DeviceControl/packages/Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.7/content/net46/web.config.install.xdt
+DeviceControl/packages/
+DeviceControl/.vs/DeviceControl/v15/Server/sqlite3/
+DeviceControl/Domain/obj/
+DeviceControl/Domain/bin/

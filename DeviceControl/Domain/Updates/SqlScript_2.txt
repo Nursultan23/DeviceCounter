@@ -1,0 +1,47 @@
+﻿USE [DeviceControlDB]
+GO
+
+/****** Object:  Table [dbo].[AutomaticModes]    Script Date: 06.04.2018 0:08:17 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[AutomaticModes](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Status] [bit] NOT NULL,
+	[Time] [datetime] NOT NULL,
+ CONSTRAINT [PK_AutomaticModes] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
+CREATE TABLE [dbo].[Devices](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[DeviceCode] [int] NOT NULL,
+	[Description] [nvarchar](max) NOT NULL,
+	[Status] [bit] NOT NULL,
+	[ChangingMoment] [datetime] NOT NULL,
+ CONSTRAINT [PK_Actions] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+CREATE TABLE [dbo].[Indicators](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Time] [datetime] NOT NULL,
+	[MeterValue] [float] NOT NULL,
+	[UnitName] [nvarchar](50) NULL,
+	[Unit] [nvarchar](50) NULL,
+ CONSTRAINT [PK_Devices] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO

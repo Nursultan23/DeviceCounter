@@ -1,0 +1,190 @@
+﻿@model DeviceControl.Models.DeviceViewModel
+
+@{
+    ViewBag.Title = "Страница управления устройствами";
+}
+
+@Scripts.Render("~/bundles/jquery")
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        if (document.getElementById("switcher").checked) {
+            setTimeout(function () { location.reload() }, 5000);
+        }
+    });
+    function ChangeCompany(_id,_status) {
+        $.ajax({
+            url: "/Home/UpdateModeStatus/",
+            data: { id: _id, status: _status },
+            type: 'POST',
+            success: function () {
+                window.location.reload();
+            },
+            error: function () {
+                alert('Не удалось изменить режим!');
+            }
+        });
+        window.location.reload();
+    }
+    function ChangeDeviceStatus(_id) {
+        $.ajax({
+            url: "/Home/UpdateDeviceStatus/",
+            data: { id: _id },
+            type: 'POST',
+            success: function () {
+                window.location.reload();
+            },
+            error: function () {
+                alert('Не удалось изменить режим!');
+            });
+    }
+</script>
+
+
+<style>
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+
+        .switch input {
+            display: none;
+        }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+    input:checked + .slider {
+        background-color: greenyellow;
+    }
+
+    input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 34px;
+    }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+</style>
+<div class="row">
+    <br />
+    <br />
+    <div class="col-md-12 col-xs-12 col-sm-12">
+
+        <table>
+            <tr>
+                <td class="control-label text-muted" style="font-size:large;">
+                    Автоматический режим
+                </td>
+                <td>
+
+                    <label class="switch" style=" margin-top: 15px;">
+                        @if (Model.mode.Status)
+                        {
+                            <input id="switcher" type="checkbox" checked onchange="ChangeCompany(@Model.mode.Id,'false')">
+                        }
+                        else
+                        {
+                            <input id="switcher" type="checkbox" onchange="ChangeCompany(@Model.mode.Id,'true')">
+                        }
+                        <span class="slider round"></span>
+                    </label>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <br />
+    <br />
+    <div class="col-md-12 col-xs-12 col-sm-12">
+
+        <table class="table">
+            @foreach (var indicator in Model.indicators)
+            {
+                <tr>
+                    <td class="text-muted">
+                        @indicator.UnitName :
+                    </td>
+                    <td style="font-size:x-large">
+                        @indicator.MeterValue @indicator.Unit
+                    </td>
+                    <td style="width:initial;">
+                        <a class="btn btn-default" href="~/Home/DeleteIndicator/@indicator.Id"><span class="glyphicon glyphicon-trash"></span> </a>
+                        <a class="btn btn-default" href="~/Home/EditIndicator/@indicator.Id"><span class="glyphicon glyphicon-cog"></span> </a>
+                    </td>
+                </tr>
+            }
+        </table>
+        <a class="btn btn-success btn-sm" href="/Home/AddIndicator" title="Добавить Индикатор"><span class="glyphicon glyphicon-plus"></span>Добавить</a>
+    </div>
+    <br />
+    <br />
+    <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+
+        @foreach (var item in Model.devices)
+        {
+            <div class="col-md-3 col-sm-6 col-xs-6 panel-primary" style="margin-top: 20px;">
+                <div class="panel-heading">
+                    <h4>Код: @item.DeviceCode</h4>
+                    <label class="switch" style=" margin-top: 15px;">
+                        @if (item.Status)
+                        {
+                            <input id="switcher" type="checkbox" checked onchange="ChangeDeviceStatus(@item.Id);">
+                        }
+                        else
+                        {
+                            <input id="switcher" type="checkbox" onchange="ChangeDeviceStatus(@item.Id);">
+                        }
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <div class="panel-body">
+                    <h2>@item.Description</h2>
+                    <h6 class="text-muted">Последнее обновление: @item.ChangingMoment.ToShortTimeString() @item.ChangingMoment.ToShortDateString()</h6>
+                </div>
+                <div class="panel-footer">
+                    <a class="btn btn-default" href="~/Home/DeleteDevice/@item.Id"><span class="glyphicon glyphicon-trash"></span> </a>
+                    <a class="btn btn-default" href="~/Home/EditDevice/@item.Id"><span class="glyphicon glyphicon-cog"></span> </a>
+
+                </div>
+            </div>
+        }
+        <a class="btn btn-success btn-sm" style="margin-top: 20px;" href="/Home/AddDevice" title="Добавить устройство"><span class="glyphicon glyphicon-plus"></span>Добавить</a>
+
+    </div>
+
+
+</div>

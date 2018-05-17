@@ -1,0 +1,37 @@
+﻿@model Domain.Entities.Device
+@{
+    ViewBag.Title = "Изменение данных устройства";
+}
+
+@if (Request.HttpMethod == "POST" )
+{
+    @RenderPage("~/Views/Shared/Error.cshtml")
+}
+
+@using (Html.BeginForm("EditDevice", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <h1><span class="glyphicon glyphicon-cog"></span>Настройка устройства</h1>
+    @Html.HiddenFor(x => Model.Id)
+    <div class="form-group">
+        <label class="control-label">Код устройства</label>
+        @Html.TextBoxFor(x => Model.DeviceCode, new { @class = "form-control validate-empty" })
+    </div>
+    <div class="form-group">
+        <label class="control-label">Название устройства</label>
+        @Html.TextBoxFor(x => Model.Description, new { @class = "form-control validate-empty" })
+    </div>
+    <div class="form-group">
+        <label class="control-label">Статус Устройства</label>
+        @Html.CheckBoxFor(x => Model.Status)
+    </div>
+
+
+    <div class="btn btn-group">
+        <a class="btn btn-default" href="/Home/Index/">Назад</a>
+        <input type="submit" class="btn btn-success" value="Сохранить" />
+    </div>
+
+}
+
+
+

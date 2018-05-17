@@ -1,0 +1,38 @@
+﻿@model Domain.Entities.Indicator
+@{
+    ViewBag.Title = "Изменение данных индикаторов";
+}
+
+@if (Request.HttpMethod == "POST")
+    {
+        @RenderPage("~/Views/Shared/Error.cshtml")
+    }
+
+@using (Html.BeginForm("EditIndicator", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <h1><span class="glyphicon glyphicon-cog"></span>Настройка индикатора</h1>
+    @Html.HiddenFor(x => Model.Id)
+    <div class="form-group">
+        <label class="control-label">Показатель счетчика</label>
+        @Html.TextBoxFor(x => x.MeterValue, new { @class = "form-control validate-empty" })
+    </div>
+    <div class="form-group">
+        <label class="control-label">Единица измерения</label>
+        @Html.TextBoxFor(x => x.Unit, new { @class = "form-control validate-empty" })
+    </div>
+    <div class="form-group">
+        <label class="control-label">Тип</label>
+        @Html.TextBoxFor(x => x.UnitName, new { @class = "form-control validate-empty" })
+    </div>
+
+    <div class="btn btn-group">
+        <a class="btn btn-default" href="/Home/Index/">Назад</a>
+        <input type="submit" class="btn btn-success" value="Сохранить" />
+    </div>
+
+}
+
+
+
+
+
